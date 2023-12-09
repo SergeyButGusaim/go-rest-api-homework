@@ -44,14 +44,13 @@ var tasks = map[string]Task{
 // Ниже напишите обработчики для каждого эндпоинта
 // Обработчик для получения всех задач
 func getTasks(w http.ResponseWriter, r *http.Request) {
-	resp, err := json.Marshal(tasks)
+	_, err := json.Marshal(tasks)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
-	w.Write(resp)
 }
 
 // Обработчик для отправки задачи на сервер
@@ -81,14 +80,13 @@ func getTask(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Задание не найдено", http.StatusNoContent)
 		return
 	}
-	resp, err := json.Marshal(tasks)
+	_, err := json.Marshal(tasks)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
-	w.Write(resp)
 }
 
 // Обработчик удаления задачи по ID
@@ -99,15 +97,12 @@ func DeleteTask(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
-	resp, err := json.Marshal(tasks)
+	_, err := json.Marshal(tasks)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(http.StatusOK)
-	w.Write(resp)
 	delete(tasks, id)
 }
 
