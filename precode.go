@@ -44,13 +44,20 @@ var tasks = map[string]Task{
 // Ниже напишите обработчики для каждого эндпоинта
 // Обработчик для получения всех задач
 func getTasks(w http.ResponseWriter, r *http.Request) {
-	_, err := json.Marshal(tasks)
+	resp, err := json.Marshal(tasks)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
+	//игнорирование ошибки
+	if err != nil {
+		_ = err
+		return
+	}
+
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
+	w.Write(resp)
 }
 
 // Обработчик для отправки задачи на сервер
@@ -80,13 +87,19 @@ func getTask(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Задание не найдено", http.StatusNoContent)
 		return
 	}
-	_, err := json.Marshal(tasks)
+	resp, err := json.Marshal(tasks)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
+	//игнорирование ошибки
+	if err != nil {
+		_ = err
+		return
+	}
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
+	w.Write(resp)
 }
 
 // Обработчик удаления задачи по ID
@@ -103,6 +116,8 @@ func DeleteTask(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
 	delete(tasks, id)
 }
 
@@ -120,3 +135,15 @@ func main() {
 		return
 	}
 }
+
+/*  Для POST
+{
+    "id": "3",
+    "description": "test post 3",
+    "note": "yes or no",
+    "applications": [
+        "VS",
+        "Git"
+    ]
+}
+*/
