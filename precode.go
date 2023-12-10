@@ -50,8 +50,9 @@ func getTasks(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	//игнорирование ошибки
+	_, err = w.Write(resp)
 	if err != nil {
-		_ = err
+		fmt.Println("error writing response: ", err.Error())
 		return
 	}
 
@@ -93,8 +94,9 @@ func getTask(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	//игнорирование ошибки
+	_, err = w.Write(resp)
 	if err != nil {
-		_ = err
+		fmt.Println("error writing response: ", err.Error())
 		return
 	}
 	w.Header().Set("Content-Type", "application/json")
@@ -135,15 +137,3 @@ func main() {
 		return
 	}
 }
-
-/*  Для POST
-{
-    "id": "3",
-    "description": "test post 3",
-    "note": "yes or no",
-    "applications": [
-        "VS",
-        "Git"
-    ]
-}
-*/
